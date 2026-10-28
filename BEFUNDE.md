@@ -10,13 +10,14 @@ Deshalb gibt es in diesem Repository zwei Zustände, und die Historie zeigt beid
 
 | Zustand von `auxiliaryAPI.js` | `npm test` |
 |---|---|
-| **vorher**, Original unverändert | **6 bestanden, 15 fehlgeschlagen** |
-| **nachher**, neu definiert | **21 bestanden, 0 fehlgeschlagen** |
+| **vorher**, Original unverändert | **18 bestanden, 15 fehlgeschlagen** |
+| **nachher**, neu definiert | **33 bestanden, 0 fehlgeschlagen** |
 
-Das sind jeweils 21 Tests: 13 eigene Unit-Tests, 7 eigene Verbindungstests und
-der mitgelieferte `sum()`-Test aus `sampleMocaTest.js`, der in beiden Zuständen
-durchläuft. Bis Commit `1cbda8f` gab es die Verbindungstests noch nicht, dort
-lautete das Ergebnis 3 bestanden und 11 fehlgeschlagen.
+Das sind jeweils 33 Tests: 13 eigene Unit-Tests (Stufe 2), 7 eigene
+Verbindungstests (Stufe 3), 12 eigene Fälle im erweiterten Beispieltest
+(Stufe 1) und der eine mitgelieferte `sum()`-Test. Bis Commit `1cbda8f` gab es
+nur die 14 Tests ohne Verbindungstests und ohne die Erweiterung, dort lautete
+das Ergebnis 3 bestanden und 11 fehlgeschlagen.
 
 Im Zustand vorher waren von meinen 13 Unit-Tests nur zwei grün, und beide nur
 zufällig. Welche und warum, steht unten. Genau das ist der Grund, warum ich die
@@ -151,3 +152,27 @@ Und ein Befund, der erst ueber die Schnittstelle sichtbar wird: solange
 `/api/fromCelsiusToFahrenheit` bei **jeder** Anfrage mit **HTTP 500**. Der
 Fehler aus Punkt 1 ist also kein reiner Testfehler, sondern legt einen
 Endpunkt der laufenden Anwendung still.
+
+## 6. Befunde aus dem erweiterten Beispieltest (Stufe 1)
+
+`tests/sampleMocaTest.js` enthielt eine eigene kleine Funktion `sum(arr)` und
+genau einen Testfall. Zwoelf weitere Faelle haben sechs Schwaechen gezeigt.
+Die Funktion gehoert zum Beispiel und nicht zur Anwendung, deshalb habe ich sie
+nicht geaendert, sondern ihr Verhalten festgeschrieben.
+
+| Eingabe | Ergebnis | Befund |
+|---|---|---|
+| `[0.1, 0.2]` | `0.30000000000000004` | Gleitkomma, kein Test auf Gleichheit moeglich |
+| `[1, "2", 3]` | `"123"` | `+=` verkettet statt zu addieren, Ergebnis ist eine Zeichenkette |
+| `"abc"` | `"0abc"` | Zeichenketten haben eine `length`, die Schleife laeuft, der Startwert 0 wird mitverkettet |
+| `[1, null, 3]` | `4` | `null` wird wie eine Null behandelt |
+| `[1, undefined, 3]` | `NaN` | ein einziges `undefined` macht das ganze Ergebnis unbrauchbar, in JSON wird daraus `null` |
+| `5` | `0` | eine Zahl hat keine `length`, die Schleife laeuft nie, die Funktion gibt still 0 zurueck |
+| `undefined` | `TypeError` | der einzige Fall, in dem sie sich ueberhaupt beschwert |
+
+Der letzte interessante Punkt ist `sum(5)`. Ein Tippfehler, bei dem die Klammern
+fehlen, liefert kein Fehlersignal, sondern eine falsche Zahl. Das ist schlimmer
+als ein Absturz, weil es niemandem auffaellt.
+
+Und der Gleitkommafall ist dieselbe Lektion wie bei 98.6 Fahrenheit weiter oben:
+bei Kommazahlen gehoert `closeTo` in den Test, nicht `equal`.

@@ -14,24 +14,27 @@ Unit Tests, Usability Tests)."*
 
 | Datei | Inhalt |
 |---|---|
+| `tests/sampleMocaTest.js` | der Beispieltest um 12 Fälle erweitert, Stufe 1 |
 | `tests/auxiliaryAPITest.js` | 13 eigene Unit-Tests zu `public/js/auxiliaryAPI.js`, Stufe 2 |
 | `tests/connectionTest.js` | 7 Verbindungstests über supertest gegen `index.js`, Stufe 3 |
 | `public/js/auxiliaryAPI.js` | die drei Funktionen neu definiert, Stufe 2 |
 | `BEFUNDE.md` | die gefundenen Fehler, mit Zeilenangaben und Messwerten |
 
+Damit sind alle drei Schwierigkeitsstufen der Aufgabe abgedeckt.
+
 Alles andere ist unverändert aus dem Original übernommen, auch
 `public/js/calculation.js` mit seinen eigenen Fehlern. Die habe ich in
-`BEFUNDE.md` beschrieben, aber nicht angefasst, weil sie ausserhalb der
-gewählten Schwierigkeitsstufe liegen.
+`BEFUNDE.md` beschrieben, aber nicht angefasst: `calculation.js` ist
+Oberflächencode und steht in keiner der drei Schwierigkeitsstufen.
 
 ## Zwei Zustände in der Historie
 
-Gemessen mit dem vollständigen Testsatz von 21 Tests:
+Gemessen mit dem vollständigen Testsatz von 33 Tests:
 
 | Code in `auxiliaryAPI.js` | `npm test` |
 |---|---|
-| Original, unverändert | **6 bestanden, 15 fehlgeschlagen** |
-| neu definiert, aktueller Stand | **21 bestanden, 0 fehlgeschlagen** |
+| Original, unverändert | **18 bestanden, 15 fehlgeschlagen** |
+| neu definiert, aktueller Stand | **33 bestanden, 0 fehlgeschlagen** |
 
 Erst messen, dann reparieren. Hätte ich sofort repariert, wären mir die zwei
 Tests entgangen, die am kaputten Code nur zufällig grün waren.
@@ -48,9 +51,9 @@ npm test
 
 Das Testskript ist `mocha tests/*.js --exit`, die Zusicherungen kommen von Chai.
 
-**Stand 28.10.2026: 21 bestanden, 0 fehlgeschlagen.** Von den 21 Tests gehört
-einer zum Projekt (`sum()` in `tests/sampleMocaTest.js`), die übrigen 20 sind
-meine, davon 13 Unit-Tests und 7 Verbindungstests.
+**Stand 28.10.2026: 33 bestanden, 0 fehlgeschlagen.** Einer davon ist der
+mitgelieferte Beispieltest, die übrigen 32 sind meine: 12 weitere Fälle in
+`sampleMocaTest.js`, 13 Unit-Tests und 7 Verbindungstests.
 
 Wer den Zustand vor der Reparatur sehen will, kann die Tests gegen den
 unveränderten Code laufen lassen:
@@ -61,7 +64,7 @@ npm test
 git checkout HEAD -- public/js/auxiliaryAPI.js
 ```
 
-Dann sind es 6 bestanden und 15 fehlgeschlagen, und die Fehlermeldungen
+Dann sind es 18 bestanden und 15 fehlgeschlagen, und die Fehlermeldungen
 entsprechen den Befunden in [BEFUNDE.md](BEFUNDE.md).
 
 `npm test` gibt in beiden Fällen "App started on port 8080" aus, weil
