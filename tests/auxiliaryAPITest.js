@@ -47,8 +47,8 @@ describe('getGreetingDependOnTime()', function () {
   it('nachts um 23 Uhr', function () {
     expect(api.getGreetingDependOnTime(um(23, 0))).to.equal('Guten Abend');
   });
-  it('Grenze 06:00', function () {
-    expect(api.getGreetingDependOnTime(um(6, 0))).to.equal('Guten Abend');
+  it('Grenze 06:00 gehoert noch zum Morgen', function () {
+    expect(api.getGreetingDependOnTime(um(6, 0))).to.equal('Guten Morgen');
   });
   it('Grenze 22:00', function () {
     expect(api.getGreetingDependOnTime(um(22, 0))).to.equal('Guten Abend');
