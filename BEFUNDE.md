@@ -3,9 +3,25 @@
 Etivity 12, Modul 2, M_MI26. Getestet am 28.10.2026 mit Mocha und Chai.
 Meine Tests liegen in `tests/auxiliaryAPITest.js`.
 
-Ergebnis von `npm test`: **3 bestanden, 11 fehlgeschlagen**. Das sind 14 Tests,
-denn der mitgelieferte `sum()`-Test aus `sampleMocaTest.js` zählt mit und läuft
-durch. Von meinen 13 Tests sind also zwei grün, und beide nur zufällig.
+## Zwei Zustände, zwei Ergebnisse
+
+Die Aufgabe verlangt, die Funktionen zu erweitern **und neu zu definieren**.
+Deshalb gibt es in diesem Repository zwei Zustände, und die Historie zeigt beide.
+
+| Zustand | Code | `npm test` |
+|---|---|---|
+| **vorher**, bis Commit `1cbda8f` | Original, unverändert | **3 bestanden, 11 fehlgeschlagen** |
+| **nachher**, ab dem Folgecommit | `auxiliaryAPI.js` neu definiert | **14 bestanden, 0 fehlgeschlagen** |
+
+Das sind jeweils 14 Tests, denn der mitgelieferte `sum()`-Test aus
+`sampleMocaTest.js` zählt mit und läuft in beiden Zuständen durch.
+
+Im Zustand vorher waren von meinen 13 Tests also nur zwei grün, und beide nur
+zufällig. Welche und warum, steht unten. Genau das ist der Grund, warum ich die
+Befunde zuerst gegen den unveränderten Code gemessen habe: hätte ich sofort
+repariert, hätte ich die Zufallstreffer nie gesehen.
+
+Alles Folgende beschreibt den Zustand **vorher**, also die gefundenen Fehler.
 
 ## 1. celsiusToFahrenheit() stürzt bei jedem Aufruf ab
 
