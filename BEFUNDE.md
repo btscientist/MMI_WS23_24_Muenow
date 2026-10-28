@@ -8,18 +8,24 @@ Meine Tests liegen in `tests/auxiliaryAPITest.js`.
 Die Aufgabe verlangt, die Funktionen zu erweitern **und neu zu definieren**.
 Deshalb gibt es in diesem Repository zwei Zustände, und die Historie zeigt beide.
 
-| Zustand | Code | `npm test` |
-|---|---|---|
-| **vorher**, bis Commit `1cbda8f` | Original, unverändert | **3 bestanden, 11 fehlgeschlagen** |
-| **nachher**, ab dem Folgecommit | `auxiliaryAPI.js` neu definiert | **14 bestanden, 0 fehlgeschlagen** |
+| Zustand von `auxiliaryAPI.js` | `npm test` |
+|---|---|
+| **vorher**, Original unverändert | **6 bestanden, 15 fehlgeschlagen** |
+| **nachher**, neu definiert | **21 bestanden, 0 fehlgeschlagen** |
 
-Das sind jeweils 14 Tests, denn der mitgelieferte `sum()`-Test aus
-`sampleMocaTest.js` zählt mit und läuft in beiden Zuständen durch.
+Das sind jeweils 21 Tests: 13 eigene Unit-Tests, 7 eigene Verbindungstests und
+der mitgelieferte `sum()`-Test aus `sampleMocaTest.js`, der in beiden Zuständen
+durchläuft. Bis Commit `1cbda8f` gab es die Verbindungstests noch nicht, dort
+lautete das Ergebnis 3 bestanden und 11 fehlgeschlagen.
 
-Im Zustand vorher waren von meinen 13 Tests also nur zwei grün, und beide nur
+Im Zustand vorher waren von meinen 13 Unit-Tests nur zwei grün, und beide nur
 zufällig. Welche und warum, steht unten. Genau das ist der Grund, warum ich die
 Befunde zuerst gegen den unveränderten Code gemessen habe: hätte ich sofort
 repariert, hätte ich die Zufallstreffer nie gesehen.
+
+Von den 7 Verbindungstests schlagen am Originalcode vier fehl, nämlich alle, die
+einen Rechenendpunkt aufrufen. Drei bleiben grün, weil sie nicht rechnen,
+sondern die Wegefindung prüfen.
 
 Alles Folgende beschreibt den Zustand **vorher**, also die gefundenen Fehler.
 
@@ -115,3 +121,33 @@ Schreibweise aus der Aufgabe findet man sie nicht.
 `require('../index')` in `tests/connectionTest.js`: `index.js` ruft beim
 Einbinden `app.listen()` auf. Deshalb braucht das Testskript `--exit`, sonst
 beendet sich Mocha nicht.
+
+## 5. Befunde aus den Verbindungstests (Stufe 3)
+
+Diese vier Punkte stehen in `tests/connectionTest.js` als Test, nicht nur als
+Notiz. Sie betreffen `index.js`, nicht die Rechenfunktionen.
+
+**Keine Eingabepruefung.** `index.js` liest `const {temperature} = req.body;`
+und gibt den Wert ungeprueft weiter. Ohne das Feld rechnet die Funktion mit
+`undefined`, das Ergebnis ist `NaN`, und `NaN` wird in JSON zu `null`. Die
+Antwort lautet trotzdem HTTP 200 mit `{"result":null}`.
+
+**Tippfehler im Pfad.** Der Endpunkt heisst `/api/fromFahrheitToCelsius`, es
+fehlt das "en". Der Nachbarpfad ist korrekt als
+`/api/fromCelsiusToFahrenheit` geschrieben. Ein Aufruf des richtig
+geschriebenen Namens trifft nichts.
+
+**Der Catch-all gilt nur fuer GET.** In Zeile 40 steht `app.get('*', ...)`.
+Ein POST auf einen unbekannten Pfad landet daher im Standard-404 ohne die
+vorgesehene Meldung.
+
+**Der Catch-all antwortet mit 200 statt 404.** Er setzt ausdruecklich
+`res.status(200)` und meldet den Fehler nur im Text
+(`"A wrong link was entered"`). Ein Aufrufer kann gueltige und ungueltige
+Antworten so nicht am Statuscode unterscheiden.
+
+Und ein Befund, der erst ueber die Schnittstelle sichtbar wird: solange
+`celsiusToFahrenheit` den `ReferenceError` wirft, antwortet
+`/api/fromCelsiusToFahrenheit` bei **jeder** Anfrage mit **HTTP 500**. Der
+Fehler aus Punkt 1 ist also kein reiner Testfehler, sondern legt einen
+Endpunkt der laufenden Anwendung still.
