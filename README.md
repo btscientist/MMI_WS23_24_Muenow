@@ -51,6 +51,8 @@ npm test
 
 Das Testskript ist `mocha tests/*.js --exit`, die Zusicherungen kommen von Chai.
 
+Getestet unter Windows mit Node v24.14.1.
+
 **Stand 28.10.2026: 33 bestanden, 0 fehlgeschlagen.** Einer davon ist der
 mitgelieferte Beispieltest, die übrigen 32 sind meine: 12 weitere Fälle in
 `sampleMocaTest.js`, 13 Unit-Tests und 7 Verbindungstests.
