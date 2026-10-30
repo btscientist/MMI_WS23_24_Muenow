@@ -1,5 +1,3 @@
-const powerButton = document.getElementById("display");
-
 let temperature = 21, mode = "summer", level = 0, isOn = true;
 
 
@@ -14,14 +12,12 @@ document.getElementById("mode-button").addEventListener("click", modeChange);
 document.getElementById("plus-button").addEventListener("click", increaseTemperature);
 document.getElementById("minus-button").addEventListener("click", decreaseTemperature);
 
-const time = () => setInterval(updateTime, 1000)
-
 function updateTime() {
     dateObj.innerText = new Date().toLocaleString('en-GB', {timeZone: 'UTC'}) + " - "
         + getGreetingDependOnTime(new Date());
 }
 
-time();
+setInterval(updateTime, 1000);
 
 function turnOnOff() {
     isOn = !isOn;
@@ -41,7 +37,6 @@ function updateDisplay() {
 }
 
 
-// this should be a very helpful comment
 getGreetingDependOnTime = function (myDate) {
     let timeBegin = '06:00';
     let timeEnd = '22:00';
@@ -49,21 +44,17 @@ getGreetingDependOnTime = function (myDate) {
     const dateEnd = new Date('2020-01-01 ' + timeEnd);
     const dateCurrent = new Date('2020-01-01 ' + myDate.getHours() + ":" + myDate.getMinutes());
 
-    if (dateBegin.getTime() < dateCurrent.getTime()) { //"guten morgen"
+    if (dateBegin.getTime() < dateCurrent.getTime()) {
         if (dateCurrent.getTime() >= dateEnd.getTime()) {
-
             return "Guten Morgen"
         }
         else {
             return "Guten Abend"
         }
     } else {
-        newVariable = dateCurrent.getTime()
-        console.log("For debugging: ") + dateBegin.getTime() + " " + dateCurrent.getTime() + " " + dateEnd.getTime()
         return "Guten Morgen"
     }
 }
-
 
 
 function increaseTemperature() {
