@@ -1,7 +1,10 @@
+// Oberflaeche des Demogeraets: Anzeige, Ein/Aus, Temperatur, Stufe, Modus.
+// Ueberarbeitet fuer Aufgabe 2 (Clean Code). Was vorher falsch war und warum,
+// steht in BEFUNDE.md, Abschnitt 4.
+
 const ANZAHL_STUFEN = 4;
 
 let temperature = 21, mode = "summer", level = 0, isOn = true;
-
 
 const dateObj = document.getElementById("date");
 const temperatureObj = document.getElementById("temperature");
@@ -14,9 +17,11 @@ document.getElementById("mode-button").addEventListener("click", modeChange);
 document.getElementById("plus-button").addEventListener("click", increaseTemperature);
 document.getElementById("minus-button").addEventListener("click", decreaseTemperature);
 
+// Uhrzeit und Begruessung kommen aus derselben Zeitangabe. Vorher zeigte die
+// Anzeige UTC, waehrend die Begruessung daneben mit der lokalen Zeit rechnete.
 function updateTime() {
-    dateObj.innerText = new Date().toLocaleString('en-GB', {timeZone: 'UTC'}) + " - "
-        + getGreetingDependOnTime(new Date());
+    const jetzt = new Date();
+    dateObj.innerText = jetzt.toLocaleString('en-GB') + " - " + getGreetingDependOnTime(jetzt);
 }
 
 setInterval(updateTime, 1000);
@@ -38,26 +43,13 @@ function updateDisplay() {
     }
 }
 
-
-getGreetingDependOnTime = function (myDate) {
-    let timeBegin = '06:00';
-    let timeEnd = '22:00';
-    const dateBegin = new Date('2020-01-01 ' + timeBegin);
-    const dateEnd = new Date('2020-01-01 ' + timeEnd);
-    const dateCurrent = new Date('2020-01-01 ' + myDate.getHours() + ":" + myDate.getMinutes());
-
-    if (dateBegin.getTime() < dateCurrent.getTime()) {
-        if (dateCurrent.getTime() >= dateEnd.getTime()) {
-            return "Guten Morgen"
-        }
-        else {
-            return "Guten Abend"
-        }
-    } else {
-        return "Guten Morgen"
-    }
+// Dieselbe Regel wie in auxiliaryAPI.js: 06:00 bis 21:59 gilt als Morgen.
+// Die Datei laesst sich hier nicht einbinden, weil sie als CommonJS-Modul
+// geschrieben ist und die Seite ohne Modulsystem geladen wird.
+function getGreetingDependOnTime(myDate) {
+    const stunde = myDate.getHours();
+    return (stunde >= 6 && stunde < 22) ? "Guten Morgen" : "Guten Abend";
 }
-
 
 function increaseTemperature() {
     temperature++;
