@@ -48,6 +48,9 @@ Richtig: `x * 9/5 + 32`
 
 Das ist genau der Kehrwert, also mal 1.8 statt mal 0.5556.
 
+Die Funktion heisst inzwischen `fahrenheitToCelsius`. Im Original war Celsius
+falsch geschrieben, umbenannt wurde sie im Zuge von Aufgabe 2.
+
 | Eingabe | kommt raus | sollte sein |
 |---|---|---|
 | 32 F | 0 | 0 |

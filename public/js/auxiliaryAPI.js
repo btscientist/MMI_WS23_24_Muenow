@@ -7,7 +7,7 @@ exports.celsiusToFahrenheit = function (celsius) {
     return celsius * 9 / 5 + 32;
 };
 
-exports.fahrenheitToCelcius = function (fahrenheit) {
+exports.fahrenheitToCelsius = function (fahrenheit) {
     // war: geteilt durch 5/9 statt multipliziert, also der Kehrwert,
     // und umgeben von einem wirkungslosen if (true)
     return (fahrenheit - 32) * 5 / 9;

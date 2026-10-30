@@ -13,24 +13,24 @@ describe('celsiusToFahrenheit()', function () {
   });
 });
 
-describe('fahrenheitToCelcius()', function () {
+describe('fahrenheitToCelsius()', function () {
   it('32 Fahrenheit sind 0 Grad Celsius', function () {
-    expect(api.fahrenheitToCelcius(32)).to.equal(0);
+    expect(api.fahrenheitToCelsius(32)).to.equal(0);
   });
   it('212 Fahrenheit sind 100 Grad Celsius', function () {
-    expect(api.fahrenheitToCelcius(212)).to.equal(100);
+    expect(api.fahrenheitToCelsius(212)).to.equal(100);
   });
   it('minus 40 ist in beiden Skalen gleich', function () {
-    expect(api.fahrenheitToCelcius(-40)).to.equal(-40);
+    expect(api.fahrenheitToCelsius(-40)).to.equal(-40);
   });
   it('98.6 Fahrenheit sind 37 Grad Celsius', function () {
-    expect(api.fahrenheitToCelcius(98.6)).to.be.closeTo(37, 0.01);
+    expect(api.fahrenheitToCelsius(98.6)).to.be.closeTo(37, 0.01);
   });
 });
 
 describe('hin und zurueck', function () {
   it('ergibt wieder denselben Wert', function () {
-    const zurueck = api.fahrenheitToCelcius(api.celsiusToFahrenheit(37));
+    const zurueck = api.fahrenheitToCelsius(api.celsiusToFahrenheit(37));
     expect(zurueck).to.be.closeTo(37, 0.01);
   });
 });
