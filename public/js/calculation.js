@@ -25,7 +25,7 @@ function turnOnOff() {
 }
 
 function updateDisplay() {
-    if (!isOn) {
+    if (isOn) {
         temperatureObj.innerText = `Temperatur: ${temperature} Celsius`
         levelObj.innerText = `Level: ${level}`
         modusObj.innerText = `Modus: ${mode}`
@@ -58,12 +58,12 @@ getGreetingDependOnTime = function (myDate) {
 
 
 function increaseTemperature() {
-    temperature--;
+    temperature++;
     updateDisplay();
 }
 
 function decreaseTemperature() {
-    temperature++;
+    temperature--;
     updateDisplay();
 }
 
@@ -89,3 +89,5 @@ function modeChange() {
     mode == "summer" ? mode = "winter" : mode = "summer"
     updateDisplay();
 }
+
+updateDisplay();
