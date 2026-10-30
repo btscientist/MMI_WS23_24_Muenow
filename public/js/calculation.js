@@ -1,3 +1,5 @@
+const ANZAHL_STUFEN = 4;
+
 let temperature = 21, mode = "summer", level = 0, isOn = true;
 
 
@@ -68,25 +70,12 @@ function decreaseTemperature() {
 }
 
 function levelChange() {
-    switch (level) {
-        case 0:
-            level = 1;
-            break;
-        case 1:
-            level += 1;
-            break;
-        case 2:
-            level++;
-            break;
-        default:
-            level -= 3;
-            break;
-    }
+    level = (level + 1) % ANZAHL_STUFEN;
     updateDisplay();
 }
 
 function modeChange() {
-    mode == "summer" ? mode = "winter" : mode = "summer"
+    mode = (mode === "summer") ? "winter" : "summer";
     updateDisplay();
 }
 
